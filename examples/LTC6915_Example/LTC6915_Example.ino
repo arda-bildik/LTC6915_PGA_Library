@@ -13,7 +13,7 @@ LTC6915_PGA pga(CS_PIN);
 
 void setup() {
     Serial.begin(9600);
-    pga.begin();
+    pga.begin(SPI);
     
     Serial.println("LTC6915 Initialized.");
     
