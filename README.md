@@ -3,15 +3,16 @@ Arduino library for the Analog Devices LTC6915 Zero-Drift PGA.
 
 # API Reference
 
-## void begin()
-Initializes the SPI bus and sets the Strobe (CS) pin to the correct output mode.
+## `void begin(SPIClass &spiBus = SPI)`
+Initializes the specified SPI bus and the Chip Select (CS) pin. 
+Defaults to `SPI` if no bus is provided.
 
-## void setGainInt(uint16_t gainValue)
+## `void setGainInt(uint16_t gainValue)`
 Sets the gain using a standard integer. Supported values: 0, 1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096
 
-## void setGain(uint8_t gainCode)
+## `void setGain(uint8_t gainCode)`
 Sets the gain using the defined gain settings.
-|KEYWORD | Gain Setting |
+| KEYWORD | Gain Setting |
 | -------- | -------- |
 | LTC6915_GAIN_0 | HI-Z Output |
 | LTC6915_GAIN_1 | 1x |
