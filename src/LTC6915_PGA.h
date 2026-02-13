@@ -31,12 +31,13 @@ public:
     // Constructor: pass the CS (Strobe) pin
     LTC6915_PGA(uint8_t csPin);
 
-    void begin();
+    void begin(SPIClass &spiBus = SPI);
     void setGain(uint8_t gainCode);
     void setGainInt(uint16_t gainValue);
 
 private:
     uint8_t _csPin;
+    SPIClass *_spi;
     SPISettings _spiSettings;
 };
 
