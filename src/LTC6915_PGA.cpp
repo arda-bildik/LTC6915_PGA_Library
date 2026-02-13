@@ -8,33 +8,29 @@
 
 LTC6915_PGA::LTC6915_PGA(uint8_t csPin) {
     _csPin = csPin;
-    // Updated to SPI_MODE3: CPOL=1, CPHA=1
-    // LTC6915 max clock is 10MHz at 5V, 2MHz at 2.7V. 1MHz is safe for both.
     _spiSettings = SPISettings(1000000, MSBFIRST, SPI_MODE3);
 }
 
-void LTC6915_PGA::begin() {
+void LTC6915_PGA::begin(SPIClass &spiBus) {
+    _spi = &spiBus;
     pinMode(_csPin, OUTPUT);
     digitalWrite(_csPin, LOW); // Data is latched when LOW
-    SPI.begin();
+    _spi->begin();
 }
 
 void LTC6915_PGA::setGain(uint8_t gainCode) {
     uint8_t data = gainCode & 0x0F;
 
-    SPI.beginTransaction(_spiSettings);
-    
-    // Enable the transparent latch (Strobe HIGH)
+    _spi->beginTransaction(_spiSettings);
+
     digitalWrite(_csPin, HIGH);
-    delayMicroseconds(1); // Small safety buffer for setup time
-    
-    // Send 8 bits (xxxx GGGG)
-    SPI.transfer(data);
-    
-    // Latch the data on the falling edge
+    delayMicroseconds(1);
+
+    _spi->transfer(data);
+
     digitalWrite(_csPin, LOW);
     
-    SPI.endTransaction();
+    _spi->endTransaction();
 }
 
 void LTC6915_PGA::setGainInt(uint16_t gainValue) {
