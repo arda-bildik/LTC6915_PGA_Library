@@ -23,12 +23,12 @@ void LTC6915_PGA::setGain(uint8_t gainCode) {
 
     _spi->beginTransaction(_spiSettings);
 
-    digitalWrite(_csPin, HIGH);
+    digitalWrite(_csPin, LOW);
     delayMicroseconds(1);
 
     _spi->transfer(data);
 
-    digitalWrite(_csPin, LOW);
+    digitalWrite(_csPin, HIGH);
     
     _spi->endTransaction();
 }
@@ -60,3 +60,4 @@ void LTC6915_PGA::setGainInt(uint16_t gainValue) {
     
     setGain(code);
 }
+
